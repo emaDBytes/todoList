@@ -1,39 +1,62 @@
+import TodoTable from "./TodoTable"; // Import the TodoTable component
 import { useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
-import TodoTable from "./TodoTable"; // Import the TodoTable component
 
-function TodoList() {
-  const [description, setDescription] = useState("");
-
+function Todolist() {
+  const [todo, setTodo] = useState({
+    description: "",
+    duedate: "",
+    priority: "",
+  });
   const [todos, setTodos] = useState([]);
 
-  const handleChange = (event) => {
-    setDescription(event.target.value);
+  const [colDefs, setColDefs] = useState([
+    { field: "description", filter: true, editable: true },
+    { field: "priority" },
+    { field: "duedate" },
+  ]);
+
+  const handleAdd = () => {
+    if (!todo) {
+      alert("Type something first");
+    } else {
+      setTodos([todo, ...todos]);
+      setTodo({ description: "", duedate: "", priority: "" });
+    }
   };
 
-  const addTodo = () => {
-    if (description.trim() === "") {
-      alert("Did you insert the description?!"); // Show an alert if the input is empty
-      return;
-    }
-    setTodos([...todos, description]);
-    setDescription(""); // Clear the input field after adding a todo
+  const handleDelete = (row) => {
+    setTodos(todos.filter((_, index) => row != index));
   };
 
   return (
     <>
+      <h3>My Todos</h3>
       <input
-        type="text"
         placeholder="Description"
-        onChange={handleChange}
-        value={description}
+        value={todo.description}
+        onChange={(event) =>
+          setTodo({ ...todo, description: event.target.value })
+        }
       />
-      <button onClick={addTodo}>Add</button>
-      <TodoTable todos={todos} /> {/* Pass the todos array as a prop */}
+      <input
+        placeholder="Priority"
+        value={todo.priority}
+        onChange={(event) => setTodo({ ...todo, priority: event.target.value })}
+      />
+      <input
+        type="date"
+        value={todo.duedate}
+        onChange={(event) => setTodo({ ...todo, duedate: event.target.value })}
+      />
+      <button onClick={handleAdd}>Add Todo</button>
+      <div className="ag-theme-material" style={{ height: 500, width: "100%" }}>
+        <AgGridReact rowData={todos} columnDefs={colDefs} />
+      </div>
     </>
   );
 }
 
-export default TodoList;
+export default Todolist;
