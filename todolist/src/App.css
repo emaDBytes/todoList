@@ -1,42 +1,113 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  max-width: 1280px; /* Limiting the width for large screens */
+  margin: 0 auto; /* Center content horizontally */
+  padding: 2rem; /* Padding around the content */
+  text-align: center; /* Center text alignment */
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  /* Supporting light and dark mode */
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87); /* Default text color for dark mode */
+  background-color: #242424; /* Background for dark mode */
+
+  /* Font smoothing for better text rendering */
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+a {
+  font-weight: 500;
+  color: #646cff; /* Link color */
+  text-decoration: inherit; /* Keep original text decoration */
+}
+
+a:hover {
+  color: #535bf2; /* Slightly darker color on hover */
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: flex-start; /* Align items to the top */
+  min-width: 320px; /* Minimum width for small screens */
+  min-height: 100vh; /* Full height layout */
+}
+
+h1 {
+  font-size: 3.2em; /* Large header size */
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px; /* Rounded button edges */
+  border: 1px solid transparent; /* Transparent border for smooth transition */
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #9e8787; /* Dark button background */
+  cursor: pointer; /* Pointer on hover */
+  transition: border-color 0.25s; /* Smooth border transition */
+}
+
+button:hover {
+  border-color: #646cff; /* Change border color on hover */
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color; /* Outline for focus accessibility */
+}
+
+input,
+select {
+  border-radius: 3px; /* Slightly rounded input field */
+  border: 1px solid transparent; /* Transparent border for consistency */
+  padding: 0.6em 1em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #e2c4c4; /* Light background for input in dark mode */
+  color: #1a1a1a; /* Text color matching button background */
+  cursor: text; /* Text cursor */
+  transition: border-color 0.25s, background-color 0.25s; /* Smooth transitions */
+}
+
+input:focus {
+  border-color: #1a1a1a; /* Darker border when input is focused */
+  outline: none; /* Remove default browser outline */
+  background-color: #ffffff; /* Slightly lighter background when focused */
+}
+
+table {
+  width: 100%; /* Full width table */
+  border-collapse: collapse; /* Remove gaps between table cells */
+  margin-top: 10px; /* Space above the table */
+}
+
+table th,
+table td {
+  border: 1px solid rgb(109, 82, 82); /* Border color for table cells */
+  padding: 6px; /* Padding inside table cells */
+  min-width: 100px;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547; /* Text color for light mode */
+    background-color: #ffffff; /* Background color for light mode */
   }
-  to {
-    transform: rotate(360deg);
+  a:hover {
+    color: #747bff; /* Slightly darker link color for light mode */
   }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  button {
+    background-color: #f9f9f9; /* Lighter button background for light mode */
   }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }
