@@ -4,6 +4,10 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css"; // Importing Material theme for Ag-Grid
 
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Stack from "@mui/material/Stack";
+
 function Todolist() {
   // State to store the current todo being entered (description, priority, and due date)
   const [todo, setTodo] = useState({
@@ -78,40 +82,54 @@ function Todolist() {
   return (
     <>
       <h3>My Todos</h3>
-
-      {/* Input field for todo description */}
-      <input
-        placeholder="Description"
-        value={todo.description} // Bind the description state to the input
-        onChange={
-          (event) => setTodo({ ...todo, description: event.target.value }) // Update the state when user types
-        }
-      />
-
-      {/* Select drop-down for todo priority */}
-      <select
-        value={todo.priority} // Bind the priority state to the select field
-        onChange={(event) => setTodo({ ...todo, priority: event.target.value })} // Update state on selection
+      <Stack
+        direction="row"
+        spacing={2}
+        justifyContent="center"
+        alignItems="center"
       >
-        <option value="">Select Priority</option> {/* Default placeholder */}
-        <option value="High">High</option>
-        <option value="Normal">Normal</option>
-        <option value="Low">Low</option>
-      </select>
+        {/* Input field for todo description */}
+        <TextField
+          label="Description"
+          value={todo.description} // Bind the description state to the input
+          onChange={
+            (event) => setTodo({ ...todo, description: event.target.value }) // Update the state when user types
+          }
+        />
 
-      {/* Input field for due date (calendar picker) */}
-      <input
-        type="date"
-        value={todo.duedate} // Bind the due date state to the input
-        onChange={(event) => setTodo({ ...todo, duedate: event.target.value })} // Update state when a date is selected
-      />
+        {/* Select drop-down for todo priority */}
+        <TextField
+          label="Priority"
+          value={todo.priority} // Bind the priority state to the select field
+          onChange={(event) =>
+            setTodo({ ...todo, priority: event.target.value })
+          } // Update state on selection
+        >
+          <option value="">Select Priority</option> {/* Default placeholder */}
+          <option value="High">High</option>
+          <option value="Normal">Normal</option>
+          <option value="Low">Low</option>
+        </TextField>
 
-      {/* Button to add the todo to the list */}
-      <button onClick={handleAdd}>Add Todo</button>
+        {/* Input field for due date (calendar picker) */}
+        <TextField
+          label="Date"
+          value={todo.duedate} // Bind the due date state to the input
+          onChange={(event) =>
+            setTodo({ ...todo, duedate: event.target.value })
+          } // Update state when a date is selected
+        />
 
-      {/* Button to delete the selected todo */}
-      <button onClick={handleDelete}>Delete</button>
+        {/* Button to add the todo to the list */}
+        <Button variant="contained" onClick={handleAdd}>
+          Add Todo
+        </Button>
 
+        {/* Button to delete the selected todo */}
+        <Button variant="contained" color="error" onClick={handleDelete}>
+          Delete
+        </Button>
+      </Stack>
       {/* Ag-Grid to display the list of todos */}
       <div className="ag-theme-material" style={{ height: 500, width: "100%" }}>
         <AgGridReact
@@ -119,7 +137,7 @@ function Todolist() {
           onGridReady={(params) => (gridRef.current = params.api)} // Set gridRef to the grid API when it's ready
           rowData={todos} // Bind the row data (todos array) to the grid
           columnDefs={colDefs} // Define the column structure with colDefs
-          rowSelection="single" // Allow only a single row to be selected at a time
+          selection={{ mode: "singleRow" }} // Allow only a single row to be selected at a time
         />
       </div>
     </>
