@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 
-function Todolist() {
+export default function Todolist() {
   // State to store the current todo being entered (description, priority, and due date)
   const [todo, setTodo] = useState({
     description: "",
@@ -143,5 +143,3 @@ function Todolist() {
     </>
   );
 }
-
-export default Todolist;

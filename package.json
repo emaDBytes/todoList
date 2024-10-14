@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "homepage": "https://github.com/emaDBytes/frontEndSandBox/tree/main/todolist/todolist/",
+    "homepage": "https://github.com/emaDBytes/frontEndSandBox/tree/main/todolist/",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
