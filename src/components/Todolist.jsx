@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { AgGridReact } from "ag-grid-react";
+import dayjs from "dayjs"; // Import dayjs to handle date formatting
 
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css"; // Importing Material theme for Ag-Grid
@@ -7,13 +8,21 @@ import "ag-grid-community/styles/ag-theme-material.css"; // Importing Material t
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
+import Box from "@mui/material/Box";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"; // Adapter for date management
+import { DatePicker } from "@mui/x-date-pickers/DatePicker"; // Material-UI Date Picker component
 
 export default function Todolist() {
   // State to store the current todo being entered (description, priority, and due date)
   const [todo, setTodo] = useState({
     description: "",
     priority: "",
-    duedate: "",
+    duedate: null,
   });
 
   // State to store the list of todos (all added todos will be stored here)
@@ -59,8 +68,14 @@ export default function Todolist() {
       return;
     } else {
       // Add the new todo to the list and clear the input fields
-      setTodos([todo, ...todos]); // Add the current todo at the beginning of the todos array
-      setTodo({ description: "", duedate: "", priority: "" }); // Reset the input fields
+      setTodos([
+        {
+          ...todo,
+          duedate: todo.duedate ? dayjs(todo.duedate).format("YYYY-MM-DD") : "",
+        },
+        ...todos,
+      ]);
+      setTodo({ description: "", duedate: null, priority: "" }); // Reset the input fields
     }
   };
 
@@ -81,7 +96,7 @@ export default function Todolist() {
 
   return (
     <>
-      <h3>My Todos</h3>
+      <h4>My Todos</h4>
       <Stack
         direction="row"
         spacing={2}
@@ -98,27 +113,39 @@ export default function Todolist() {
         />
 
         {/* Select drop-down for todo priority */}
-        <TextField
-          label="Priority"
-          value={todo.priority} // Bind the priority state to the select field
-          onChange={(event) =>
-            setTodo({ ...todo, priority: event.target.value })
-          } // Update state on selection
-        >
-          <option value="">Select Priority</option> {/* Default placeholder */}
-          <option value="High">High</option>
-          <option value="Normal">Normal</option>
-          <option value="Low">Low</option>
-        </TextField>
+        <Box sx={{ minWidth: 120 }}>
+          <FormControl fullWidth>
+            <InputLabel id="priority-select-label">Priority</InputLabel>
+            <Select
+              labelId="priority-select-label"
+              id="priority-select"
+              value={todo.priority}
+              label="Priority"
+              onChange={(event) =>
+                setTodo({ ...todo, priority: event.target.value })
+              }
+            >
+              <MenuItem value="High">High</MenuItem>
+              <MenuItem value="Normal">Normal</MenuItem>
+              <MenuItem value="Low">Low</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
 
         {/* Input field for due date (calendar picker) */}
-        <TextField
-          label="Date"
-          value={todo.duedate} // Bind the due date state to the input
-          onChange={(event) =>
-            setTodo({ ...todo, duedate: event.target.value })
-          } // Update state when a date is selected
-        />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            label="Due Date"
+            value={todo.duedate ? dayjs(todo.duedate) : null}
+            onChange={(newValue) =>
+              setTodo({
+                ...todo,
+                duedate: dayjs(newValue).format("YYYY-MM-DD"),
+              })
+            }
+            renderInput={(params) => <TextField {...params} />}
+          />
+        </LocalizationProvider>
 
         {/* Button to add the todo to the list */}
         <Button variant="contained" onClick={handleAdd}>
