@@ -94,6 +94,14 @@ export default function Todolist() {
     }
   };
 
+  const handleClearAll = () => {
+    if (todos.length > 0) {
+      if (window.confirm("Clear all todos?")) setTodos([]);
+    } else {
+      alert("Todo list is already empty");
+    }
+  };
+
   return (
     <>
       <h3>My Todos</h3>
@@ -155,6 +163,10 @@ export default function Todolist() {
         {/* Button to delete the selected todo */}
         <Button variant="contained" color="error" onClick={handleDelete}>
           Delete
+        </Button>
+
+        <Button variant="outlined" color="error" onClick={handleClearAll}>
+          Clear All
         </Button>
       </Stack>
       {/* Ag-Grid to display the list of todos */}
